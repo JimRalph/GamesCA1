@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('developer_id');
             $table->string('title');
+            $table->string("image");
             $table->text('description');
             $table->integer('age_restriction');
             $table->date('release_date');

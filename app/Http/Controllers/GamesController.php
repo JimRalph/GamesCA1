@@ -12,7 +12,8 @@ class GamesController extends Controller
      */
     public function index()
     {
-        //
+        $games = Games::all();
+        return view("games.index", compact("games"));
     }
 
     /**
@@ -34,9 +35,9 @@ class GamesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Games $games)
+    public function show(Games $game)
     {
-        //
+        return view('games.show')->with('game', $game);
     }
 
     /**
