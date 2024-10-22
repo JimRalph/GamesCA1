@@ -18,6 +18,10 @@
                     <x-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')">
                         {{ __('View All Games') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('games.create')" :active="request()->routeIs('games.create')">
+                        {{ __('Add a game') }}
+                    </x-nav-link>
+                  
                 </div>
             </div>
 
