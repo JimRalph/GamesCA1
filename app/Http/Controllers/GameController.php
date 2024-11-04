@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Games;
+use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class GamesController extends Controller
+class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $games = Games::all();
+        $games = Game::all();
         return view("games.index", compact("games"));
     }
 
@@ -46,7 +46,7 @@ class GamesController extends Controller
         }
 
         //Create a new game record in the database
-        Games::create([
+        Game::create([
             'title' => $request->title,
             'description' => $request->description,
             'release_date' => $request->release_date,
@@ -62,7 +62,7 @@ class GamesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Games $game)
+    public function show(Game $game)
     {
         return view('games.show')->with('game', $game);
     }
@@ -70,7 +70,7 @@ class GamesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Games $games)
+    public function edit(Game $game)
     {
         //
     }
@@ -78,7 +78,7 @@ class GamesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Games $games)
+    public function update(Request $request, Game $game)
     {
         //
     }
@@ -86,7 +86,7 @@ class GamesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Games $games)
+    public function destroy(Game $game)
     {
         //
     }
