@@ -72,7 +72,9 @@ class GameController extends Controller
      */
     public function edit(Game $game)
     {
-        //
+        return view('games.edit', [
+            'game' => $request->game(),
+        ]);
     }
 
     /**
@@ -80,7 +82,32 @@ class GameController extends Controller
      */
     public function update(Request $request, Game $game)
     {
-        //
+        // Validate the incoming data
+        $validated = $request->validate([
+            'developer_id' => 'required|integer|exists:developers,id',
+            'title' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'required|string|max:500',
+            'age_restriction' => 'required|integer|min:0|max:18',
+            'release_date' => 'required|date',
+        ]);
+        // Fill the game model with validated data
+        $game->fill($validated);
+        // Handle new image and delete old one
+        if ($request->hasFile('image')) {
+            if ($game->image && Storage::exists($game->image)) {
+                Storage::delete($game->image);
+            }
+
+            // Store the new image and update the 'image' field
+            $game->image = $request->file('image')->store('public\images\games');
+        }
+
+        // Save the updated game
+        $game->save();
+
+        // Redirect back to the game
+        return Redirect::route('games.index')->with('success', 'Game updated successfully');
     }
 
     /**
@@ -90,4 +117,5 @@ class GameController extends Controller
     {
         //
     }
+
 }
