@@ -51,9 +51,9 @@ class GameController extends Controller
             'description' => $request->description,
             'release_date' => $request->release_date,
             'age_restriction' => $request->age_restriction,
-            'image' => $request->$imageName
-            //'created_at' => now(),
-            //'updated_at' => now()
+            'image' => $request->$imageName,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         return to_route('games.index')->with('success', 'Game created successfully!');
@@ -73,10 +73,10 @@ class GameController extends Controller
     public function edit(Game $game)
     {
         return view('games.edit', [
-            'game' => $request->game(),
+            'game' => $game,
         ]);
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
@@ -90,24 +90,27 @@ class GameController extends Controller
             'description' => 'required|string|max:500',
             'age_restriction' => 'required|integer|min:0|max:18',
             'release_date' => 'required|date',
+            'updated_at' => now()
         ]);
-        // Fill the game model with validated data
-        $game->fill($validated);
+    
         // Handle new image and delete old one
         if ($request->hasFile('image')) {
+            // Delete old image
             if ($game->image && Storage::exists($game->image)) {
                 Storage::delete($game->image);
             }
-
-            // Store the new image and update the 'image' field
-            $game->image = $request->file('image')->store('public\images\games');
+            // Store the new image
+            $game->image = $request->file('image')->store('public/images/games');
         }
 
-        // Save the updated game
+        // Fill the game with validated data
+        $game->fill($validated);
+    
+        // Save the game
         $game->save();
-
-        // Redirect back to the game
-        return Redirect::route('games.index')->with('success', 'Game updated successfully');
+    
+        // Redirect back to the index
+        return redirect()->route('games.index')->with('success', 'Game updated successfully');
     }
 
     /**

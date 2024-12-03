@@ -84,8 +84,12 @@
     @endisset
 
     <div>
-        <x-primary-button>
+        <x-primary-button >
             {{isset($game)?'Update Game':'add Game'}}
         </x-primary-button>
     </div>
+
+    <x-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')" class="text-red-500 hover:text-red-700">
+        {{ __('Cancel')}}
+    </x-nav-link>
 </form>

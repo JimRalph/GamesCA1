@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('age_restriction');
             $table->date('release_date');
+            $table->timestamps();
         });
     }
 
